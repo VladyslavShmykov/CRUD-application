@@ -1,4 +1,7 @@
 import {Component} from '@angular/core';
+import {Observable} from "rxjs";
+import {Owner} from "./shared/interfaces/owner.model";
+import {OwnerService} from "./shared/services/owner.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +10,18 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
 
+  public owners$: Observable<Owner[]> | undefined;
+
+  constructor(
+    private ownerService: OwnerService,
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.owners$ = this.ownerService.getOwners();
+  }
+
+  addOwner() {
+
+  }
 }

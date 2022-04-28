@@ -7,14 +7,14 @@ import {DataService} from "./shared/services/data.services";
 import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {OwnerComponent} from './owner/owner.component';
-import {HomeComponent} from './home/home.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
     AppComponent,
     OwnerComponent,
-    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -23,6 +23,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

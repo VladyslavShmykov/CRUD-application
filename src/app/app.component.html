@@ -1,1 +1,35 @@
-<router-outlet></router-outlet>
+<button
+  type="button"
+  (click)="addOwner()"
+  class="btn btn-primary">Добавить</button>
+
+<button type="button" class="btn btn-primary">Просмотр</button>
+<button type="button" class="btn btn-primary">Редактировать</button>
+<button type="button" class="btn btn-primary">Удалить</button>
+
+<table *ngIf="owners$" class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">
+      <input type="checkbox">
+    </th>
+    <th scope="col">#</th>
+    <th scope="col">Фамилия</th>
+    <th scope="col">Имя</th>
+    <th scope="col">Отчество</th>
+    <th scope="col">Количество автомобилей</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let owner of (owners$ | async)">
+    <th scope="row">
+      <input type="checkbox" [checked]="owner.selected">
+    </th>
+    <td>{{ owner.id }}</td>
+    <td>{{ owner.lastName }}</td>
+    <td>{{ owner.firstName }}</td>
+    <td>{{ owner.middleName }}</td>
+    <td>{{ owner.cars.length }}</td>
+  </tr>
+  </tbody>
+</table>

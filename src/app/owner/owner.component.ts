@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-owner',
@@ -10,22 +11,27 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 export class OwnerComponent implements OnInit {
   private type: 'create' | 'read' | 'update';
   public ownerForm: FormGroup;
+  errorMessage: any;
 
   constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
   ) {
-    const {type, id} = this.router.getCurrentNavigation()?.extras.state as any;
-    this.type = type;
   }
 
   ngOnInit(): void {
     this.initForm();
+    this.activatedRoute.data
+      .pipe(take(1))
+      .subscribe(({type}) => this.type = type);
   }
 
   private initForm(): void {
     this.ownerForm = this.fb.group({
-
+      lastName: new FormControl('', [Validators.required]),
+      firstName: new FormControl('', [Validators.required]),
+      middleName: new FormControl('', [Validators.required]),
     })
   }
 }

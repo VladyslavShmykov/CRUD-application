@@ -1,3 +1,34 @@
 <div>
-  <form [formGroup]="ownerForm"></form>
+  <form class="owner-form" [formGroup]="ownerForm">
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Фамилия</mat-label>
+      <input type="email"
+             matInput
+             formControlName="lastName"
+             placeholder="Иванов">
+      <mat-error *ngIf="ownerForm.controls['lastName'].hasError('required')">
+        Укажите фамилию
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Имя</mat-label>
+      <input type="email"
+             matInput
+             formControlName="firstName"
+             placeholder="Иванов">
+      <mat-error *ngIf="ownerForm.controls['firstName'].hasError('required')">
+        Укажите имя
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Отчество</mat-label>
+      <input type="email"
+             matInput
+             formControlName="middleName"
+             placeholder="Иванов">
+      <mat-error *ngIf="ownerForm.controls['middleName'].hasError('required')">
+        Укажите отчество
+      </mat-error>
+    </mat-form-field>
+  </form>
 </div>
