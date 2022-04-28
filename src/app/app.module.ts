@@ -6,10 +6,14 @@ import {HttpClientInMemoryWebApiModule} from "angular-in-memory-web-api";
 import {DataService} from "./shared/services/data.services";
 import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { OwnerComponent } from './owner/owner.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    OwnerComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
