@@ -24,6 +24,96 @@ export class DataService implements InMemoryDbService {
             }
           ],
           id: 1,
+        },
+        {
+          firstName: 'Иванов',
+          lastName: 'Иван',
+          middleName: 'Иванович',
+          cars: [
+            {
+              id: 1,
+              manufacturer: 'BMW',
+              model: 'E36 325',
+              productionYear: 1995,
+              stateNumber: 'АР1234АС'
+            }
+          ],
+          id: 1,
+        },
+        {
+          firstName: 'Иванов',
+          lastName: 'Иван',
+          middleName: 'Иванович',
+          cars: [
+            {
+              id: 1,
+              manufacturer: 'BMW',
+              model: 'E36 325',
+              productionYear: 1995,
+              stateNumber: 'АР1234АС'
+            }
+          ],
+          id: 1,
+        },
+        {
+          firstName: 'Иванов',
+          lastName: 'Иван',
+          middleName: 'Иванович',
+          cars: [
+            {
+              id: 1,
+              manufacturer: 'BMW',
+              model: 'E36 325',
+              productionYear: 1995,
+              stateNumber: 'АР1234АС'
+            }
+          ],
+          id: 1,
+        },
+        {
+          firstName: 'Иванов',
+          lastName: 'Иван',
+          middleName: 'Иванович',
+          cars: [
+            {
+              id: 1,
+              manufacturer: 'BMW',
+              model: 'E36 325',
+              productionYear: 1995,
+              stateNumber: 'АР1234АС'
+            }
+          ],
+          id: 1,
+        },
+        {
+          firstName: 'Иванов',
+          lastName: 'Иван',
+          middleName: 'Иванович',
+          cars: [
+            {
+              id: 1,
+              manufacturer: 'BMW',
+              model: 'E36 325',
+              productionYear: 1995,
+              stateNumber: 'АР1234АС'
+            }
+          ],
+          id: 1,
+        },
+        {
+          firstName: 'Иванов',
+          lastName: 'Иван',
+          middleName: 'Иванович',
+          cars: [
+            {
+              id: 1,
+              manufacturer: 'BMW',
+              model: 'E36 325',
+              productionYear: 1995,
+              stateNumber: 'АР1234АС'
+            }
+          ],
+          id: 1,
         }
       ]
     };

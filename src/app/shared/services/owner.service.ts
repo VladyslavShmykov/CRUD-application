@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {map, Observable} from "rxjs";
+import {debounceTime, filter, map, Observable, of, switchMap, take, tap} from "rxjs";
 import {Owner, OwnerEntity} from "../interfaces/owner.model";
 import {HttpClient} from "@angular/common/http";
 import {ICarOwnerService} from "../interfaces/car-owner-service.model";
 import {CarEntity} from "../interfaces/car.model";
+import {FormGroup} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -48,4 +49,36 @@ export class OwnerService implements ICarOwnerService {
   public deleteOwner(id: number): Observable<any> {
     return this.http.delete(this.ownersUrl + id);
   }
+
+  public checkNumberUniq(oldNumber: string): any {
+    return (
+      control: FormGroup
+    ) => {
+      console.log(control.value)
+      if (control.pristine) {
+        return of(null);
+      }
+      if (control.value === oldNumber) {
+        return of(null);
+      }
+      return control.valueChanges
+        .pipe(
+          debounceTime(500),
+          take(1),
+          filter(value => !!value),
+          switchMap(() => this.getOwners()),
+          map((res) => {
+            const carsArr: CarEntity[] = res.map(({cars}) => cars).flat();
+            if (carsArr.find(({stateNumber}) => stateNumber === control.value)) {
+              return {'exists': true};
+            }
+            return null;
+          }),
+          tap(() => {
+            control.markAsTouched();
+          })
+        );
+    };
+  }
+
 }

@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subject, take} from "rxjs";
 import {CarEntity} from "../shared/interfaces/car.model";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {OwnerService} from "../shared/services/owner.service";
 
 @Component({
   selector: 'app-owner',
@@ -23,6 +25,8 @@ export class OwnerComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
+    private modalRef: NgbActiveModal,
+    private ownerService: OwnerService,
   ) {
   }
 
@@ -33,7 +37,6 @@ export class OwnerComponent implements OnInit, OnDestroy {
     this.activatedRoute.data
       .pipe(take(1))
       .subscribe(({type}) => this.type = type);
-
   }
 
   public deleteCar(car: CarEntity): void {
@@ -43,14 +46,23 @@ export class OwnerComponent implements OnInit, OnDestroy {
   }
 
   public addCar(): void {
-    this.cars.push({
+    const newCar = {
       id: this.createId(),
       model: '',
       manufacturer: '',
       productionYear: null
       , stateNumber: ''
-    });
-    this.addControlToCarsForm();
+    };
+    this.cars.push(newCar);
+    this.addControlToCarsForm(newCar);
+  }
+
+  public save(): void {
+    this.modalRef.close();
+  }
+
+  public close(): void {
+    this.modalRef.close();
   }
 
   private initOwnerForm(): FormGroup {
@@ -63,17 +75,22 @@ export class OwnerComponent implements OnInit, OnDestroy {
 
   private initCarsForm(): FormGroup {
     this.carsForm = this.fb.group({})
-    this.addControlToCarsForm();
+    this.cars.forEach(car => this.addControlToCarsForm(car));
     return this.carsForm;
   }
 
-  private addControlToCarsForm(): void {
-    this.cars.forEach((car) => {
-      this.carsForm.addControl(`num${car.id}`, new FormControl(car.stateNumber, []));
-      this.carsForm.addControl(`manufactured${car.id}`, new FormControl(car.manufacturer, []));
+  private addControlToCarsForm(car: CarEntity): void {
+      this.carsForm.addControl(`num${car.id}`,new FormControl(
+          car.stateNumber,
+          [],
+          [this.ownerService.checkNumberUniq('')]
+        ));
+      this.carsForm.addControl(`manufactured${car.id}`, new FormControl(
+        car.manufacturer,
+        []
+      ));
       this.carsForm.addControl(`model${car.id}`, new FormControl(car.model, []));
       this.carsForm.addControl(`year${car.id}`, new FormControl(car.productionYear, []));
-    });
   }
 
   private removeControlsFromCarsForm(car: CarEntity): void {
