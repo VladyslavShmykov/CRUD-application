@@ -1,4 +1,20 @@
-.form-field {
-  margin: 10px;
-  padding: 10px;
+.owner-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .name-cont {
+    display: flex;
+    justify-content: center;
+
+    .form-field {
+      margin: 10px;
+      padding: 10px;
+    }
+  }
+
+  .cars-table {
+    margin: 10px;
+    padding: 10px;
+  }
 }

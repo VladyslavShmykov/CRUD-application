@@ -1,8 +1,8 @@
-<div>
-  <form class="owner-form" [formGroup]="ownerForm">
+<form class="owner-form" [formGroup]="ownerForm">
+  <div class="name-cont">
     <mat-form-field class="form-field" appearance="fill">
       <mat-label>Фамилия</mat-label>
-      <input type="email"
+      <input type="text"
              matInput
              formControlName="lastName"
              placeholder="Иванов">
@@ -12,23 +12,49 @@
     </mat-form-field>
     <mat-form-field class="form-field" appearance="fill">
       <mat-label>Имя</mat-label>
-      <input type="email"
+      <input type="text"
              matInput
              formControlName="firstName"
-             placeholder="Иванов">
+             placeholder="Иван">
       <mat-error *ngIf="ownerForm.controls['firstName'].hasError('required')">
         Укажите имя
       </mat-error>
     </mat-form-field>
     <mat-form-field class="form-field" appearance="fill">
       <mat-label>Отчество</mat-label>
-      <input type="email"
+      <input type="text"
              matInput
              formControlName="middleName"
-             placeholder="Иванов">
+             placeholder="Иванович">
       <mat-error *ngIf="ownerForm.controls['middleName'].hasError('required')">
         Укажите отчество
       </mat-error>
     </mat-form-field>
-  </form>
-</div>
+  </div>
+
+  <div class="cars-table">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Номер</th>
+        <th scope="col">Марка</th>
+        <th scope="col">Модель</th>
+        <th scope="col">Год</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let car of cars; index as i">
+        <td>{{i + 1}}</td>
+        <td>ар1234ап</td>
+        <td>бмв</td>
+        <td>325</td>
+        <td>1995</td>
+        <td>del</td>
+      </tr>
+      </tbody>
+    </table>
+    <button type="button" mat-button color="primary">add car</button>
+  </div>
+</form>
