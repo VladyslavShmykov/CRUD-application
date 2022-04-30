@@ -48,21 +48,23 @@
       <tr *ngFor="let car of cars; index as i">
         <td>{{i + 1}}</td>
         <td>
-          <input matInput [formControlName]="'carNum' + i">
+          <input matInput [formControlName]="'carNum' + car.id">
         </td>
         <td>
-          <input matInput [formControlName]="'carManufactured' + i">
+          <input matInput [formControlName]="'carManufactured' + car.id">
         </td>
         <td>
-          <input matInput [formControlName]="'carModel' + i">
+          <input matInput [formControlName]="'carModel' + car.id">
         </td>
         <td>
-          <input matInput [formControlName]="'carYear' + i">
+          <input matInput [formControlName]="'carYear' + car.id">
         </td>
-        <td>del</td>
+        <td>
+          <button (click)="deleteCar(car.id)" type="button" mat-button color="warn">удалить</button>
+        </td>
       </tr>
       </tbody>
     </table>
-    <button type="button" mat-button color="primary">add car</button>
+    <button (click)="addCar()" type="button" mat-button color="primary">add car</button>
   </div>
 </form>

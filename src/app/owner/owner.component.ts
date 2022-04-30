@@ -16,18 +16,18 @@ export class OwnerComponent implements OnInit, OnDestroy {
   public ownerForm: FormGroup;
   public carsForm: FormGroup;
   public cars: CarEntity[] = [
-    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {id:1, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {id:2, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {id:3, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {id:4, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {id:5, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {id:6, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {id:7, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {id:8, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {id:9, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {id:10, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {id:11, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {id:12, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
   ];
 
   constructor(
@@ -45,11 +45,28 @@ export class OwnerComponent implements OnInit, OnDestroy {
     ).subscribe(([oldValue, newValue]) => {
       console.log(oldValue, newValue);
       });
+
+    this.initCarsForm()
+
     this.activatedRoute.data
       .pipe(take(1))
       .subscribe(({type}) => this.type = type);
 
-    this.initCarsForm()
+
+  }
+
+  public deleteCar(cId: number): void {
+    const carIndexToDelete = this.cars.findIndex(({id}) => id === cId);
+    this.cars.splice(carIndexToDelete, 1);
+    this.carsForm.removeControl(`carNum${cId}`,);
+    this.carsForm.removeControl(`carManufactured${cId}`);
+    this.carsForm.removeControl(`carModel${cId}`);
+    this.carsForm.removeControl(`carYear${cId}`);
+    console.log(this.cars)
+    console.log(this.carsForm)
+  }
+
+  public addCar(): void {
   }
 
   private initOwnerForm(): FormGroup {
@@ -60,15 +77,15 @@ export class OwnerComponent implements OnInit, OnDestroy {
     })
   }
 
-  private initCarsForm() {
+  private initCarsForm(): FormGroup {
     this.carsForm = this.fb.group({})
-    this.cars.forEach((car, index) => {
-      this.carsForm.addControl(`carNum${index}`, new FormControl(car.stateNumber, []));
-      this.carsForm.addControl(`carManufactured${index}`, new FormControl(car.manufacturer, []));
-      this.carsForm.addControl(`carModel${index}`, new FormControl(car.model, []));
-      this.carsForm.addControl(`carYear${index}`, new FormControl(car.productionYear, []));
+    this.cars.forEach((car) => {
+      this.carsForm.addControl(`carNum${car.id}`, new FormControl(car.stateNumber, []));
+      this.carsForm.addControl(`carManufactured${car.id}`, new FormControl(car.manufacturer, []));
+      this.carsForm.addControl(`carModel${car.id}`, new FormControl(car.model, []));
+      this.carsForm.addControl(`carYear${car.id}`, new FormControl(car.productionYear, []));
     })
-    console.log(this.carsForm)
+    return this.carsForm;
   }
 
   ngOnDestroy(): void {
