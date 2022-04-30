@@ -33,7 +33,7 @@
   </div>
 
   <div class="cars-table">
-    <table class="table table-striped">
+    <table class="table table-striped" [formGroup]="carsForm">
       <thead>
       <tr>
         <th scope="col">#</th>
@@ -47,10 +47,18 @@
       <tbody>
       <tr *ngFor="let car of cars; index as i">
         <td>{{i + 1}}</td>
-        <td>ар1234ап</td>
-        <td>бмв</td>
-        <td>325</td>
-        <td>1995</td>
+        <td>
+          <input matInput [formControlName]="'carNum' + i">
+        </td>
+        <td>
+          <input matInput [formControlName]="'carManufactured' + i">
+        </td>
+        <td>
+          <input matInput [formControlName]="'carModel' + i">
+        </td>
+        <td>
+          <input matInput [formControlName]="'carYear' + i">
+        </td>
         <td>del</td>
       </tr>
       </tbody>

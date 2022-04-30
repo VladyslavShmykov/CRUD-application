@@ -14,7 +14,21 @@ export class OwnerComponent implements OnInit, OnDestroy {
   private type: 'create' | 'read' | 'update';
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public ownerForm: FormGroup;
-  public cars: CarEntity[] = [];
+  public carsForm: FormGroup;
+  public cars: CarEntity[] = [
+    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+    {manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
+  ];
 
   constructor(
     private router: Router,
@@ -24,7 +38,7 @@ export class OwnerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.initForm().valueChanges.pipe(
+    this.initOwnerForm().valueChanges.pipe(
       pairwise(),
       filter(([oldRes, newRes]) => oldRes.cars.length !== newRes.cars.length),
       takeUntil(this.destroy$)
@@ -34,15 +48,27 @@ export class OwnerComponent implements OnInit, OnDestroy {
     this.activatedRoute.data
       .pipe(take(1))
       .subscribe(({type}) => this.type = type);
+
+    this.initCarsForm()
   }
 
-  private initForm(): FormGroup {
+  private initOwnerForm(): FormGroup {
     return this.ownerForm = this.fb.group({
       lastName: new FormControl('', [Validators.required]),
       firstName: new FormControl('', [Validators.required]),
       middleName: new FormControl('', [Validators.required]),
-      cars: new FormControl([], []),
     })
+  }
+
+  private initCarsForm() {
+    this.carsForm = this.fb.group({})
+    this.cars.forEach((car, index) => {
+      this.carsForm.addControl(`carNum${index}`, new FormControl(car.stateNumber, []));
+      this.carsForm.addControl(`carManufactured${index}`, new FormControl(car.manufacturer, []));
+      this.carsForm.addControl(`carModel${index}`, new FormControl(car.model, []));
+      this.carsForm.addControl(`carYear${index}`, new FormControl(car.productionYear, []));
+    })
+    console.log(this.carsForm)
   }
 
   ngOnDestroy(): void {
