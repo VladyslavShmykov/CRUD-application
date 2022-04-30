@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {Observable} from "rxjs";
 import {Owner} from "./shared/interfaces/owner.model";
 import {OwnerService} from "./shared/services/owner.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {OwnerComponent} from "./owner/owner.component";
 
 @Component({
   selector: 'app-root',
@@ -14,6 +16,7 @@ export class AppComponent {
 
   constructor(
     private ownerService: OwnerService,
+    private ngbModal: NgbModal
   ) {
   }
 
@@ -22,6 +25,6 @@ export class AppComponent {
   }
 
   addOwner() {
-
+    this.ngbModal.open(OwnerComponent);
   }
 }
