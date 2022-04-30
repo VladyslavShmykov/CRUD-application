@@ -1,5 +1,5 @@
-<form class="owner-form" [formGroup]="ownerForm">
-  <div class="name-cont">
+<div class="owner-form">
+  <div class="name-cont" [formGroup]="ownerForm">
     <mat-form-field class="form-field" appearance="fill">
       <mat-label>Фамилия</mat-label>
       <input type="text"
@@ -48,23 +48,35 @@
       <tr *ngFor="let car of cars; index as i">
         <td>{{i + 1}}</td>
         <td>
-          <input matInput [formControlName]="'carNum' + car.id">
+          <mat-form-field appearance="fill">
+            <mat-label>Введите номер авто</mat-label>
+            <input matInput [formControlName]="'num' + car.id" placeholder="АА1234АА">
+          </mat-form-field>
         </td>
         <td>
-          <input matInput [formControlName]="'carManufactured' + car.id">
+          <mat-form-field appearance="fill">
+            <mat-label>Введите марку авто</mat-label>
+            <input matInput [formControlName]="'manufactured' + car.id">
+          </mat-form-field>
         </td>
         <td>
-          <input matInput [formControlName]="'carModel' + car.id">
+          <mat-form-field appearance="fill">
+            <mat-label>Введите модель авто</mat-label>
+            <input matInput [formControlName]="'model' + car.id">
+          </mat-form-field>
         </td>
         <td>
-          <input matInput [formControlName]="'carYear' + car.id">
+          <mat-form-field appearance="fill">
+            <mat-label>Введите год выпуска</mat-label>
+            <input matInput [formControlName]="'year' + car.id">
+          </mat-form-field>
         </td>
         <td>
-          <button (click)="deleteCar(car.id)" type="button" mat-button color="warn">удалить</button>
+          <button (click)="deleteCar(car)" type="button" mat-button color="warn">удалить</button>
         </td>
       </tr>
       </tbody>
     </table>
     <button (click)="addCar()" type="button" mat-button color="primary">add car</button>
   </div>
-</form>
+</div>

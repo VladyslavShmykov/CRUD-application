@@ -1,7 +1,7 @@
 export interface CarEntity {
-  id: number;
+  id: number,
   stateNumber: string;
   manufacturer: string;
   model: string;
-  productionYear: number;
+  productionYear: number | null;
 }

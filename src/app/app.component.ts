@@ -25,6 +25,6 @@ export class AppComponent {
   }
 
   addOwner() {
-    this.ngbModal.open(OwnerComponent, {size: "lg"});
+    this.ngbModal.open(OwnerComponent, {size: "xl"});
   }
 }

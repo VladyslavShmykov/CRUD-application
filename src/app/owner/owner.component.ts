@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {filter, pairwise, Subject, take, takeUntil} from "rxjs";
+import {Subject, take} from "rxjs";
 import {CarEntity} from "../shared/interfaces/car.model";
 
 @Component({
@@ -11,24 +11,13 @@ import {CarEntity} from "../shared/interfaces/car.model";
 })
 export class OwnerComponent implements OnInit, OnDestroy {
 
+  @Input()
+  public cars: CarEntity[] = [];
+
   private type: 'create' | 'read' | 'update';
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public ownerForm: FormGroup;
   public carsForm: FormGroup;
-  public cars: CarEntity[] = [
-    {id:1, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {id:2, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {id:3, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {id:4, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {id:5, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {id:6, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {id:7, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {id:8, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {id:9, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {id:10, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {id:11, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-    {id:12, manufacturer: 'bmw', model: '325', productionYear: 1995, stateNumber: 'FH1231FH'},
-  ];
 
   constructor(
     private router: Router,
@@ -38,35 +27,30 @@ export class OwnerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.initOwnerForm().valueChanges.pipe(
-      pairwise(),
-      filter(([oldRes, newRes]) => oldRes.cars.length !== newRes.cars.length),
-      takeUntil(this.destroy$)
-    ).subscribe(([oldValue, newValue]) => {
-      console.log(oldValue, newValue);
-      });
-
-    this.initCarsForm()
+    this.initOwnerForm()
+    this.initCarsForm();
 
     this.activatedRoute.data
       .pipe(take(1))
       .subscribe(({type}) => this.type = type);
 
-
   }
 
-  public deleteCar(cId: number): void {
-    const carIndexToDelete = this.cars.findIndex(({id}) => id === cId);
+  public deleteCar(car: CarEntity): void {
+    const carIndexToDelete = this.cars.findIndex(({stateNumber}) => stateNumber === car.stateNumber);
     this.cars.splice(carIndexToDelete, 1);
-    this.carsForm.removeControl(`carNum${cId}`,);
-    this.carsForm.removeControl(`carManufactured${cId}`);
-    this.carsForm.removeControl(`carModel${cId}`);
-    this.carsForm.removeControl(`carYear${cId}`);
-    console.log(this.cars)
-    console.log(this.carsForm)
+    this.removeControlsFromCarsForm(car);
   }
 
   public addCar(): void {
+    this.cars.push({
+      id: this.createId(),
+      model: '',
+      manufacturer: '',
+      productionYear: null
+      , stateNumber: ''
+    });
+    this.addControlToCarsForm();
   }
 
   private initOwnerForm(): FormGroup {
@@ -79,13 +63,35 @@ export class OwnerComponent implements OnInit, OnDestroy {
 
   private initCarsForm(): FormGroup {
     this.carsForm = this.fb.group({})
-    this.cars.forEach((car) => {
-      this.carsForm.addControl(`carNum${car.id}`, new FormControl(car.stateNumber, []));
-      this.carsForm.addControl(`carManufactured${car.id}`, new FormControl(car.manufacturer, []));
-      this.carsForm.addControl(`carModel${car.id}`, new FormControl(car.model, []));
-      this.carsForm.addControl(`carYear${car.id}`, new FormControl(car.productionYear, []));
-    })
+    this.addControlToCarsForm();
     return this.carsForm;
+  }
+
+  private addControlToCarsForm(): void {
+    this.cars.forEach((car) => {
+      this.carsForm.addControl(`num${car.id}`, new FormControl(car.stateNumber, []));
+      this.carsForm.addControl(`manufactured${car.id}`, new FormControl(car.manufacturer, []));
+      this.carsForm.addControl(`model${car.id}`, new FormControl(car.model, []));
+      this.carsForm.addControl(`year${car.id}`, new FormControl(car.productionYear, []));
+    });
+  }
+
+  private removeControlsFromCarsForm(car: CarEntity): void {
+    this.carsForm.removeControl(`num${car.id}`,);
+    this.carsForm.removeControl(`manufactured${car.id}`);
+    this.carsForm.removeControl(`model${car.id}`);
+    this.carsForm.removeControl(`year${car.id}`);
+  }
+
+  private createId(): number {
+    let id: number = this.cars.length;
+    for (let index = 0; index < this.cars.length; index++) {
+      if (this.cars[index].id !== index) {
+        id = index;
+        break;
+      }
+    }
+    return id;
   }
 
   ngOnDestroy(): void {
