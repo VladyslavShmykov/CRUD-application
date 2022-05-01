@@ -1,0 +1,15 @@
+.control-btn {
+  margin: 10px;
+}
+
+.owner-row {
+  cursor: pointer;
+
+  .checked {
+    background-color: rgba(0, 149, 255, 0.17);
+  }
+
+  :hover {
+    background-color: rgba(0, 149, 255, 0.07);
+  }
+}

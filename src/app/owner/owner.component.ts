@@ -1,11 +1,12 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Subject, take} from "rxjs";
+import {Subject} from "rxjs";
 import {CarEntity} from "../shared/interfaces/car.model";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {OwnerService} from "../shared/services/owner.service";
 import {stateNumberValidator} from "../shared/validators/state-number.validator";
+import {Owner, OwnerEntity} from "../shared/interfaces/owner.model";
 import * as moment from 'moment';
 
 @Component({
@@ -16,13 +17,15 @@ import * as moment from 'moment';
 export class OwnerComponent implements OnInit, OnDestroy {
 
   @Input()
-  public cars: CarEntity[] = [];
+  private owner: Owner;
+  @Input()
+  public type: 'create' | 'read' | 'update';
 
-  private type: 'create' | 'read' | 'update';
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public ownerForm: FormGroup;
   public carsForm: FormGroup;
   public currentYear: number = +moment().format('yyyy');
+  public cars: CarEntity[];
 
   constructor(
     private router: Router,
@@ -34,11 +37,10 @@ export class OwnerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.cars = this.owner?.cars || [];
+    console.log('type', this.type, 'owenr', this.owner)
     this.initOwnerForm();
     this.initCarsForm();
-    this.activatedRoute.data
-      .pipe(take(1))
-      .subscribe(({type}) => this.type = type);
   }
 
   public deleteCar(car: CarEntity): void {
@@ -74,25 +76,46 @@ export class OwnerComponent implements OnInit, OnDestroy {
     const payload = {
       firstName, lastName, middleName, cars
     }
+    if (this.type === 'update') {
+      (payload as OwnerEntity).id = this.owner.id;
+    }
+
     this.modalRef.close(payload);
   }
 
   public close(): void {
-    console.log(this.carsForm);
-    // this.modalRef.close();
+    this.modalRef.close();
   }
 
   private initOwnerForm(): FormGroup {
-    return this.ownerForm = this.fb.group({
-      lastName: new FormControl('', [Validators.required]),
-      firstName: new FormControl('', [Validators.required]),
-      middleName: new FormControl('', [Validators.required]),
-    })
+    const form = this.fb.group({
+      lastName: new FormControl(
+        this.owner?.lastName || '',
+        [Validators.required]
+      ),
+      firstName: new FormControl(
+        this.owner?.firstName || '',
+        [Validators.required]
+      ),
+      middleName: new FormControl(
+        this.owner?.middleName || '',
+        [Validators.required]
+      ),
+    });
+
+    if (this.type === 'read') {
+      form.disable();
+    }
+
+    return this.ownerForm = form;
   }
 
   private initCarsForm(): FormGroup {
     this.carsForm = this.fb.group({})
     this.cars.forEach(car => this.addControlToCarsForm(car));
+    if (this.type === 'read') {
+      this.carsForm.disable();
+    }
     return this.carsForm;
   }
 

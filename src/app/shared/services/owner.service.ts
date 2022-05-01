@@ -11,6 +11,7 @@ import {FormGroup} from "@angular/forms";
 })
 export class OwnerService implements ICarOwnerService {
   private ownersUrl: string = 'api/owners/';
+  private isDataBaseInitialized: boolean;
 
   constructor(
     private http: HttpClient
@@ -19,7 +20,10 @@ export class OwnerService implements ICarOwnerService {
 
   public getOwners(): Observable<Owner[]> {
     return this.http.get<OwnerEntity[]>(this.ownersUrl)
-      .pipe(map((res: OwnerEntity[]) => res.map(item => new Owner(item))));
+      .pipe(
+        tap(res => this.isDataBaseInitialized = !!res.length),
+        map((res: OwnerEntity[]) => res.map(item => new Owner(item)))
+      );
   }
 
   public getOwnerById(id: number): Observable<OwnerEntity> {
@@ -31,15 +35,22 @@ export class OwnerService implements ICarOwnerService {
     aFirstName: string,
     aMidleName: string,
     aCars: CarEntity[]
-  ): Observable<OwnerEntity> {
+  ): Observable<Owner> {
     const newOwner = {
       firstName: aFirstName,
       lastName: aLastName,
       middleName: aMidleName,
-      cars: aCars,
+      cars: aCars.map(item => {item.stateNumber = item.stateNumber.toUpperCase(); return item})
     }
 
-    return this.http.post<OwnerEntity>(this.ownersUrl, newOwner);
+    if (!this.isDataBaseInitialized) {
+      (newOwner as OwnerEntity).id = 1;
+    }
+    return this.http.post<OwnerEntity>(this.ownersUrl, newOwner)
+      .pipe(
+        tap(() => this.isDataBaseInitialized = true),
+        map((res: OwnerEntity) => new Owner(res))
+      );
   }
 
   public editOwner(owner: OwnerEntity): Observable<any> {

@@ -12,24 +12,26 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
     AppComponent,
     OwnerComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientInMemoryWebApiModule.forRoot(DataService),
-    HttpClientModule,
-    NgbModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientInMemoryWebApiModule.forRoot(DataService),
+        HttpClientModule,
+        NgbModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatCheckboxModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
