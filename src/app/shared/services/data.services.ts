@@ -7,115 +7,15 @@ import {OwnerEntity} from "../interfaces/owner.model";
 })
 export class DataService implements InMemoryDbService {
 
+  private localStorageDataBase = localStorage.getItem('dataBase');
+
   public createDb(): { owners: OwnerEntity[] } {
+    let oldDataBase: OwnerEntity[] = [];
+    if (this.localStorageDataBase) {
+      oldDataBase = JSON.parse(this.localStorageDataBase);
+    }
     return {
-      owners: [
-        {
-          firstName: 'Иванов',
-          lastName: 'Иван',
-          middleName: 'Иванович',
-          cars: [
-            {
-              id: 1,
-              manufacturer: 'BMW',
-              model: 'E36 325',
-              productionYear: 1995,
-              stateNumber: 'АР1234АС'
-            }
-          ],
-          id: 1,
-        },
-        {
-          firstName: 'Иванов',
-          lastName: 'Иван',
-          middleName: 'Иванович',
-          cars: [
-            {
-              id: 2,
-              manufacturer: 'BMW',
-              model: 'E36 325',
-              productionYear: 1995,
-              stateNumber: 'АР1234АС'
-            }
-          ],
-          id: 2,
-        },
-        {
-          firstName: 'Иванов',
-          lastName: 'Иван',
-          middleName: 'Иванович',
-          cars: [
-            {
-              id: 3,
-              manufacturer: 'BMW',
-              model: 'E36 325',
-              productionYear: 1995,
-              stateNumber: 'АР1234АС'
-            }
-          ],
-          id: 3,
-        },
-        {
-          firstName: 'Иванов',
-          lastName: 'Иван',
-          middleName: 'Иванович',
-          cars: [
-            {
-              id: 4,
-              manufacturer: 'BMW',
-              model: 'E36 325',
-              productionYear: 1995,
-              stateNumber: 'АР1234АС'
-            }
-          ],
-          id: 4,
-        },
-        {
-          firstName: 'Иванов',
-          lastName: 'Иван',
-          middleName: 'Иванович',
-          cars: [
-            {
-              id: 5,
-              manufacturer: 'BMW',
-              model: 'E36 325',
-              productionYear: 1995,
-              stateNumber: 'АР1234АС'
-            }
-          ],
-          id: 5,
-        },
-        {
-          firstName: 'Иванов',
-          lastName: 'Иван',
-          middleName: 'Иванович',
-          cars: [
-            {
-              id: 6,
-              manufacturer: 'BMW',
-              model: 'E36 325',
-              productionYear: 1995,
-              stateNumber: 'АР1234АС'
-            }
-          ],
-          id: 6,
-        },
-        {
-          firstName: 'Иванов',
-          lastName: 'Иван',
-          middleName: 'Иванович',
-          cars: [
-            {
-              id: 7,
-              manufacturer: 'BMW',
-              model: 'E36 325',
-              productionYear: 1995,
-              stateNumber: 'АР1234АС'
-            }
-          ],
-          id: 7,
-        }
-      ]
+      owners: oldDataBase,
     };
   }
 }

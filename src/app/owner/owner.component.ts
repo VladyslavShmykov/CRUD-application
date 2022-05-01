@@ -119,6 +119,7 @@ export class OwnerComponent implements OnInit, OnDestroy {
     return this.carsForm;
   }
 
+  //для того чтоб создать для каждого input свой FormControl используем эту функцию
   private addControlToCarsForm(car: CarEntity): void {
     this.carsForm.addControl(`num${car.id}`, new FormControl(
       car.stateNumber,
@@ -146,6 +147,7 @@ export class OwnerComponent implements OnInit, OnDestroy {
     this.carsForm.removeControl(`year${car.id}`);
   }
 
+  //функция нужна нам для создания уникального ай ди автомобиля
   private createId(): number {
     let id: number = this.cars.length;
     for (let index = 0; index < this.cars.length; index++) {

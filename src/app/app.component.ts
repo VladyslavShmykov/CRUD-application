@@ -34,11 +34,11 @@ export class AppComponent {
   }
 
   public onSelectOwner(owner: Owner): void {
-    if (!owner.selected) {
-      this.ownersSelection.deselectTemplate(this.selectedItems[0]);
-      this.ownersSelection.selectTemplate(owner);
+    if (!owner?.selected) {
+      this.ownersSelection.deselectItem(this.selectedItems[0]);
+      this.ownersSelection.selectItem(owner);
     } else {
-      this.ownersSelection.deselectTemplate(owner);
+      this.ownersSelection.deselectItem(owner);
     }
   }
 
@@ -49,9 +49,12 @@ export class AppComponent {
       (newOwner) => {
         if (newOwner) {
           this.ownerService.createOwner(newOwner.lastName, newOwner.firstName, newOwner.middleName, newOwner.cars).pipe(take(1))
-            .subscribe(value => this.owners.push(value));
+            .subscribe(value => {
+              this.owners.push(value);
+              this.ownerService.saveToLocalStorage(this.owners);
+            });
+          this.onSelectOwner(this.selectedItems[0]);
         }
-        this.onSelectOwner(this.selectedItems[0]);
       });
   }
 
@@ -66,6 +69,7 @@ export class AppComponent {
           const idx = this.owners.findIndex(({id}) => id === editedOwner.id);
           this.owners[idx] = editedOwner;
           this.onSelectOwner(this.selectedItems[0]);
+          this.ownerService.saveToLocalStorage(this.owners);
         })
     );
   }
@@ -79,7 +83,10 @@ export class AppComponent {
   public deleteOwner(): void {
     const ownerIdToDelete = this.selectedItems[0].id;
     this.ownerService.deleteOwner(ownerIdToDelete).pipe(take(1))
-      .subscribe(() => this.owners = this.owners.filter(({id}) => id !== ownerIdToDelete));
+      .subscribe(() => {
+        this.owners = this.owners.filter(({id}) => id !== ownerIdToDelete);
+        this.ownerService.saveToLocalStorage(this.owners);
+      });
     this.onSelectOwner(this.selectedItems[0]);
   }
 }

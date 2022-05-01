@@ -42,7 +42,8 @@ export class OwnerService implements ICarOwnerService {
       middleName: aMidleName,
       cars: aCars.map(item => {item.stateNumber = item.stateNumber.toUpperCase(); return item})
     }
-
+    //этот функционал треуется так как база данных не может начать считать ай ди без начального значения
+    //запрос на создание в пустой базе данных возвращает ошибку из-за отсутствия ай ди
     if (!this.isDataBaseInitialized) {
       (newOwner as OwnerEntity).id = 1;
     }
@@ -61,6 +62,7 @@ export class OwnerService implements ICarOwnerService {
     return this.http.delete(this.ownersUrl + id);
   }
 
+  //имитация асинхронного валидатора для првоерки уникальности номера авто
   public checkNumberUniq(oldNumber: string): any {
     return (
       control: FormGroup
@@ -88,6 +90,11 @@ export class OwnerService implements ICarOwnerService {
           take(1),
         );
     };
+  }
+
+  //функция для длительного хранения базы данных
+  public saveToLocalStorage(res: OwnerEntity[]): void {
+    localStorage.setItem('dataBase', JSON.stringify(res));
   }
 
 }
