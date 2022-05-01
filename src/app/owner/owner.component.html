@@ -1,0 +1,111 @@
+<div class="owner-form">
+  <div class="name-cont" [formGroup]="ownerForm">
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Фамилия</mat-label>
+      <input type="text"
+             [class.read-input]="type === 'read'"
+             matInput
+             formControlName="lastName"
+             placeholder="Иванов">
+      <mat-error *ngIf="ownerForm.controls['lastName']?.hasError('required')">
+        Укажите фамилию
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Имя</mat-label>
+      <input type="text"
+             [class.read-input]="type === 'read'"
+             matInput
+             formControlName="firstName"
+             placeholder="Иван">
+      <mat-error *ngIf="ownerForm.controls['firstName']?.hasError('required')">
+        Укажите имя
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Отчество</mat-label>
+      <input type="text"
+             [class.read-input]="type === 'read'"
+             matInput
+             formControlName="middleName"
+             placeholder="Иванович">
+      <mat-error *ngIf="ownerForm.controls['middleName']?.hasError('required')">
+        Укажите отчество
+      </mat-error>
+    </mat-form-field>
+
+    <div class="control-btn" *ngIf="type !== 'read'">
+      <button [disabled]="ownerForm.invalid || carsForm.invalid  || carsForm.pending" mat-button (click)="save()" color="primary">Сохранить</button>
+      <button mat-button (click)="close()" color="warn">Отмена</button>
+    </div>
+  </div>
+
+  <div class="cars-table">
+    <table class="table table-striped" [formGroup]="carsForm">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Номер</th>
+        <th scope="col">Марка</th>
+        <th scope="col">Модель</th>
+        <th scope="col">Год</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let car of cars; index as i">
+        <td>{{i + 1}}</td>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Введите номер авто</mat-label>
+            <input [class.read-input]="type === 'read'" onkeyup="this.value = this.value.toUpperCase()" matInput [formControlName]="'num' + car.id" placeholder="АА1234АА">
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('required')">
+              Укажите номер
+            </mat-error>
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('maxlength')">
+              Максимум 8 символов
+            </mat-error>
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('minlength')">
+              Минимум 8 символов
+            </mat-error>
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('invalid')">
+              Неверный формат
+            </mat-error>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Введите марку авто</mat-label>
+            <input [class.read-input]="type === 'read'" matInput [formControlName]="'manufactured' + car.id">
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('required')">
+              Укажите марку авто
+            </mat-error>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Введите модель авто</mat-label>
+            <input [class.read-input]="type === 'read'" matInput [formControlName]="'model' + car.id">
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('required')">
+              Укажите модель авто
+            </mat-error>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Введите год выпуска</mat-label>
+            <input [class.read-input]="type === 'read'" type="number" min="1990" [max]="currentYear" matInput [formControlName]="'year' + car.id">
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('required')">
+              Укажите год выпуска
+            </mat-error>
+          </mat-form-field>
+        </td>
+        <td>
+          <button *ngIf="type !== 'read'" (click)="deleteCar(car)" type="button" mat-button color="warn">удалить</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <button *ngIf="type !== 'read'" (click)="addCar()" [disabled]="carsForm.invalid || carsForm.pending" type="button" mat-button color="primary">Добавить автомобиль</button>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<button
+  type="button"
+  (click)="createOwner()"
+  class="btn btn-primary control-btn">Добавить
+</button>
+<button
+  type="button"
+  (click)="readOwner()"
+  [disabled]="!selectedItems.length"
+  class="btn btn-primary control-btn">Просмотр</button>
+<button
+  type="button"
+  (click)="updateOwner()"
+  [disabled]="!selectedItems.length"
+  class="btn btn-primary control-btn">Редактировать</button>
+<button
+  type="button"
+  (click)="deleteOwner()"
+  [disabled]="!selectedItems.length"
+  class="btn btn-primary control-btn">Удалить
+</button>
+
+<table *ngIf="owners.length" class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Фамилия</th>
+    <th scope="col">Имя</th>
+    <th scope="col">Отчество</th>
+    <th scope="col">Количество автомобилей</th>
+  </tr>
+  </thead>
+  <tbody class="owner-row">
+  <tr [class.checked]="owner.selected" (click)="onSelectOwner(owner)" *ngFor="let owner of owners;index as i">
+    <td>{{ i + 1 }}</td>
+    <td>{{ owner.lastName }}</td>
+    <td>{{ owner.firstName }}</td>
+    <td>{{ owner.middleName }}</td>
+    <td>{{ owner.cars.length }}</td>
+  </tr>
+  </tbody>
+</table>

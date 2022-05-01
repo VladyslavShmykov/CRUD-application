@@ -1,0 +1,38 @@
+.owner-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .name-cont {
+    display: flex;
+    justify-content: center;
+
+    .form-field {
+      margin: 10px;
+      padding: 10px;
+    }
+
+    .control-btn {
+      display: flex;
+      align-items: center;
+
+      button {
+        background-color: rgb(128 128 128 / 10%);
+        margin: 5px;
+      }
+    }
+  }
+
+  .cars-table {
+    margin: 10px;
+    padding: 10px;
+
+    tbody {
+      font-size: 12px;
+    }
+  }
+
+  .read-input {
+    color: black;
+  }
+}
