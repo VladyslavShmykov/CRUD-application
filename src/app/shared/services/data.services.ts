@@ -31,14 +31,14 @@ export class DataService implements InMemoryDbService {
           middleName: 'Иванович',
           cars: [
             {
-              id: 1,
+              id: 2,
               manufacturer: 'BMW',
               model: 'E36 325',
               productionYear: 1995,
               stateNumber: 'АР1234АС'
             }
           ],
-          id: 1,
+          id: 2,
         },
         {
           firstName: 'Иванов',
@@ -46,14 +46,14 @@ export class DataService implements InMemoryDbService {
           middleName: 'Иванович',
           cars: [
             {
-              id: 1,
+              id: 3,
               manufacturer: 'BMW',
               model: 'E36 325',
               productionYear: 1995,
               stateNumber: 'АР1234АС'
             }
           ],
-          id: 1,
+          id: 3,
         },
         {
           firstName: 'Иванов',
@@ -61,14 +61,14 @@ export class DataService implements InMemoryDbService {
           middleName: 'Иванович',
           cars: [
             {
-              id: 1,
+              id: 4,
               manufacturer: 'BMW',
               model: 'E36 325',
               productionYear: 1995,
               stateNumber: 'АР1234АС'
             }
           ],
-          id: 1,
+          id: 4,
         },
         {
           firstName: 'Иванов',
@@ -76,14 +76,14 @@ export class DataService implements InMemoryDbService {
           middleName: 'Иванович',
           cars: [
             {
-              id: 1,
+              id: 5,
               manufacturer: 'BMW',
               model: 'E36 325',
               productionYear: 1995,
               stateNumber: 'АР1234АС'
             }
           ],
-          id: 1,
+          id: 5,
         },
         {
           firstName: 'Иванов',
@@ -91,14 +91,14 @@ export class DataService implements InMemoryDbService {
           middleName: 'Иванович',
           cars: [
             {
-              id: 1,
+              id: 6,
               manufacturer: 'BMW',
               model: 'E36 325',
               productionYear: 1995,
               stateNumber: 'АР1234АС'
             }
           ],
-          id: 1,
+          id: 6,
         },
         {
           firstName: 'Иванов',
@@ -106,14 +106,14 @@ export class DataService implements InMemoryDbService {
           middleName: 'Иванович',
           cars: [
             {
-              id: 1,
+              id: 7,
               manufacturer: 'BMW',
               model: 'E36 325',
               productionYear: 1995,
               stateNumber: 'АР1234АС'
             }
           ],
-          id: 1,
+          id: 7,
         }
       ]
     };

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Observable} from "rxjs";
+import {Observable, take} from "rxjs";
 import {Owner} from "./shared/interfaces/owner.model";
 import {OwnerService} from "./shared/services/owner.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
@@ -12,7 +12,7 @@ import {OwnerComponent} from "./owner/owner.component";
 })
 export class AppComponent {
 
-  public owners$: Observable<Owner[]> | undefined;
+  public owners$: Observable<Owner[]>;
 
   constructor(
     private ownerService: OwnerService,
@@ -25,6 +25,10 @@ export class AppComponent {
   }
 
   addOwner() {
-    this.ngbModal.open(OwnerComponent, {size: "xl"});
+    this.ngbModal.open(OwnerComponent, {size: "xl"}).result.then(
+      ({firstName, lastName, middleName, cars}) => {
+        this.ownerService.createOwner(lastName, firstName, middleName, cars).pipe(take(1))
+          .subscribe(() => this.owners$ = this.ownerService.getOwners());
+    });
   }
 }
