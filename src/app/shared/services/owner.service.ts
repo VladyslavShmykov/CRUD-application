@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {debounceTime, filter, map, Observable, of, switchMap, take, tap} from "rxjs";
+import {debounceTime, filter, map, Observable, of, take, tap} from "rxjs";
 import {Owner, OwnerEntity} from "../interfaces/owner.model";
 import {HttpClient} from "@angular/common/http";
 import {ICarOwnerService} from "../interfaces/car-owner-service.model";
@@ -54,19 +54,16 @@ export class OwnerService implements ICarOwnerService {
     return (
       control: FormGroup
     ) => {
-      console.log(control.value)
       if (control.pristine) {
         return of(null);
       }
       if (control.value === oldNumber) {
         return of(null);
       }
-      return control.valueChanges
+      return this.getOwners()
         .pipe(
           debounceTime(500),
-          take(1),
           filter(value => !!value),
-          switchMap(() => this.getOwners()),
           map((res) => {
             const carsArr: CarEntity[] = res.map(({cars}) => cars).flat();
             if (carsArr.find(({stateNumber}) => stateNumber === control.value)) {
@@ -76,7 +73,8 @@ export class OwnerService implements ICarOwnerService {
           }),
           tap(() => {
             control.markAsTouched();
-          })
+          }),
+          take(1),
         );
     };
   }

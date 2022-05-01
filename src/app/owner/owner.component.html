@@ -6,7 +6,7 @@
              matInput
              formControlName="lastName"
              placeholder="Иванов">
-      <mat-error *ngIf="ownerForm.controls['lastName'].hasError('required')">
+      <mat-error *ngIf="ownerForm.controls['lastName']?.hasError('required')">
         Укажите фамилию
       </mat-error>
     </mat-form-field>
@@ -16,7 +16,7 @@
              matInput
              formControlName="firstName"
              placeholder="Иван">
-      <mat-error *ngIf="ownerForm.controls['firstName'].hasError('required')">
+      <mat-error *ngIf="ownerForm.controls['firstName']?.hasError('required')">
         Укажите имя
       </mat-error>
     </mat-form-field>
@@ -26,13 +26,13 @@
              matInput
              formControlName="middleName"
              placeholder="Иванович">
-      <mat-error *ngIf="ownerForm.controls['middleName'].hasError('required')">
+      <mat-error *ngIf="ownerForm.controls['middleName']?.hasError('required')">
         Укажите отчество
       </mat-error>
     </mat-form-field>
 
     <div class="control-btn">
-      <button mat-button (click)="save()" color="primary">Сохранить</button>
+      <button [disabled]="ownerForm.invalid || carsForm.invalid  || carsForm.pending" mat-button (click)="save()" color="primary">Сохранить</button>
       <button mat-button (click)="close()" color="warn">Отмена</button>
     </div>
   </div>
@@ -55,25 +55,46 @@
         <td>
           <mat-form-field appearance="fill">
             <mat-label>Введите номер авто</mat-label>
-            <input matInput [formControlName]="'num' + car.id" placeholder="АА1234АА">
+            <input onkeyup="this.value = this.value.toUpperCase()" matInput [formControlName]="'num' + car.id" placeholder="АА1234АА">
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('required')">
+              Укажите номер
+            </mat-error>
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('maxlength')">
+              Максимум 8 символов
+            </mat-error>
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('minlength')">
+              Минимум 8 символов
+            </mat-error>
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('invalid')">
+              Неверный формат
+            </mat-error>
           </mat-form-field>
         </td>
         <td>
           <mat-form-field appearance="fill">
             <mat-label>Введите марку авто</mat-label>
             <input matInput [formControlName]="'manufactured' + car.id">
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('required')">
+              Укажите марку авто
+            </mat-error>
           </mat-form-field>
         </td>
         <td>
           <mat-form-field appearance="fill">
             <mat-label>Введите модель авто</mat-label>
             <input matInput [formControlName]="'model' + car.id">
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('required')">
+              Укажите модель авто
+            </mat-error>
           </mat-form-field>
         </td>
         <td>
           <mat-form-field appearance="fill">
             <mat-label>Введите год выпуска</mat-label>
-            <input matInput [formControlName]="'year' + car.id">
+            <input type="number" min="1990" [max]="currentYear" matInput [formControlName]="'year' + car.id">
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('required')">
+              Укажите год выпуска
+            </mat-error>
           </mat-form-field>
         </td>
         <td>
@@ -82,6 +103,6 @@
       </tr>
       </tbody>
     </table>
-    <button (click)="addCar()" type="button" mat-button color="primary">add car</button>
+    <button (click)="addCar()" [disabled]="carsForm.invalid || carsForm.pending" type="button" mat-button color="primary">add car</button>
   </div>
 </div>
