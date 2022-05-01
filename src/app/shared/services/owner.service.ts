@@ -79,7 +79,7 @@ export class OwnerService implements ICarOwnerService {
           filter(value => !!value),
           map((res) => {
             const carsArr: CarEntity[] = res.map(({cars}) => cars).flat();
-            if (carsArr.find(({stateNumber}) => stateNumber === control.value)) {
+            if (carsArr.find(({stateNumber}) => stateNumber.toLowerCase() === control.value.toLowerCase())) {
               return {'exists': true};
             }
             return null;

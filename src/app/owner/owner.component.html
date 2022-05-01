@@ -71,6 +71,9 @@
             <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('invalid')">
               Неверный формат
             </mat-error>
+            <mat-error *ngIf="carsForm.controls['num' + car.id]?.hasError('exists')">
+              Такой номер уже существует
+            </mat-error>
           </mat-form-field>
         </td>
         <td>
