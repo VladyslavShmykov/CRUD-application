@@ -38,7 +38,6 @@ export class OwnerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.cars = this.owner?.cars || [];
-    console.log('type', this.type, 'owenr', this.owner)
     this.initOwnerForm();
     this.initCarsForm();
   }

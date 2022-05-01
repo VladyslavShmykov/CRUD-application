@@ -53,7 +53,6 @@ export class AppComponent {
               this.owners.push(value);
               this.ownerService.saveToLocalStorage(this.owners);
             });
-          this.onSelectOwner(this.selectedItems[0]);
         }
       });
   }
