@@ -35,7 +35,7 @@
     </mat-form-field>
 
     <div class="control-btn" *ngIf="type !== 'read'">
-      <button [disabled]="ownerForm.invalid || carsForm.invalid  || carsForm.pending" mat-button (click)="save()" color="primary">Сохранить</button>
+      <button [disabled]="ownerForm.invalid || carsForm.invalid  || carsForm.pending || !this.cars.length" mat-button (click)="save()" color="primary">Сохранить</button>
       <button mat-button (click)="close()" color="warn">Отмена</button>
     </div>
   </div>
